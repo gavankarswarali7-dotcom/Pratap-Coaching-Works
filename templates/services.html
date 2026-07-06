@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aamchya Seva - Pratap Coaching Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #1a0a2e; font-family: 'Noto Sans Devanagari', sans-serif; color: #f5e6c8; }
+        nav { background-color: rgba(30,8,64,0.97); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f5a623; }
+        nav .nav-brand { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.3rem; color: #f5a623; font-weight: bold; text-decoration: none; }
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a { text-decoration: none; color: #fdf0c0; font-weight: 700; font-size: 1rem; }
+        nav ul li a:hover { color: #f5a623; }
+        .page-header { background: linear-gradient(135deg, #2d0f5e, #1a0a2e); padding: 60px 40px; text-align: center; border-bottom: 3px solid #f5a623; }
+        .page-header h1 { font-family: 'Tiro Devanagari Marathi', serif; font-size: 2.8rem; color: #fdf0c0; text-shadow: 2px 2px 0px #7a3a00; margin-bottom: 10px; }
+        .page-header p { color: #c084d8; font-size: 1.1rem; letter-spacing: 2px; }
+        .services-section { padding: 70px 40px; max-width: 1100px; margin: 0 auto; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: linear-gradient(145deg, #2d0f5e, #1e0840); border: 2px solid #f5a623; border-radius: 16px; overflow: hidden; transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(245,166,35,0.3); }
+        .service-card .card-image { width: 100%; height: 220px; object-fit: cover; display: block; border-bottom: 2px solid #f5a623; }
+        .service-card .card-icon-wrap { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3b1a6e, #2d0f5e); border-bottom: 2px solid #f5a623; font-size: 5rem; }
+        .service-card .card-body { padding: 24px; }
+        .service-card h3 { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.5rem; color: #fdf0c0; margin-bottom: 8px; }
+        .service-card .english-name { color: #f5a623; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+        .service-card p { color: #c9a8e8; font-size: 0.95rem; line-height: 1.7; }
+        .service-card .price-tag { display: inline-block; margin-top: 14px; background: #f5a623; color: #3b006e; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+        .contact-banner { background: #f5a623; padding: 40px; text-align: center; }
+        .contact-banner h2 { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.8rem; color: #3b006e; margin-bottom: 10px; }
+        .contact-banner p { color: #3b006e; font-size: 1.1rem; margin-bottom: 16px; }
+        .contact-banner a { display: inline-block; background: #3b006e; color: #fdf0c0; padding: 12px 32px; border-radius: 30px; text-decoration: none; font-size: 1.1rem; font-weight: bold; }
+        footer { background: #0d0518; text-align: center; padding: 20px; color: #6b4f8a; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-brand">Pratap Coaching Works</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <h1>Our Services</h1>
+    <p>Miraj's Best Rickshaw Workshop</p>
+</div>
+
+<section class="services-section">
+    <div class="services-grid">
+
+        <div class="service-card">
+            <img src="{{ url_for('static', filename='images/rickshaw1.jpg') }}" alt="Top Cover" class="card-image">
+            <div class="card-body">
+                <h3>Top Cover</h3>
+                <div class="english-name">Hood / Top Cover</div>
+                <p>We make new top covers for rickshaws. Protection from sun, rain and dust. Long lasting quality material used.</p>
+                <span class="price-tag">Call for Price</span>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <img src="{{ url_for('static', filename='images/rickshaw2.jpg') }}" alt="Seat Cover" class="card-image">
+            <div class="card-body">
+                <h3>Seat Cover</h3>
+                <div class="english-name">Seat Covers</div>
+                <p>We make comfortable and attractive seat covers for passengers. Available in different colors and designs.</p>
+                <span class="price-tag">Call for Price</span>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="card-icon-wrap">🛞</div>
+            <div class="card-body">
+                <h3>Flaps</h3>
+                <div class="english-name">Flaps</div>
+                <p>We install flaps on the side of tyres. Protects the rickshaw from mud and water. Long lasting.</p>
+                <span class="price-tag">Call for Price</span>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="card-icon-wrap">💺</div>
+            <div class="card-body">
+                <h3>Custom Seat Making</h3>
+                <div class="english-name">Custom Seat Making</div>
+                <p>We make new seats from scratch. Comfortable seats made with foam and quality fabric for passengers.</p>
+                <span class="price-tag">Call for Price</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="contact-banner">
+    <h2>Contact Us Today!</h2>
+    <p>Call us for more information about our services</p>
+    <a href="tel:9422613763">Call: 94226 13763</a>
+</div>
+
+<footer>
+    <p>2025 Pratap Coaching Works, Miraj. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
