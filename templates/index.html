@@ -4,157 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pratap Coaching Works - Miraj</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Noto+Sans+Devanagari:wght@400;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Noto Sans Devanagari', sans-serif; background: #1a0a2e; color: #f5e6c8; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: rgba(20,5,50,0.97); border-bottom: 2px solid #f5a623; display: flex; justify-content: space-between; align-items: center; padding: 0px 40px; }
-        .nav-brand { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.3rem; color: #f5a623; font-weight: bold; text-decoration: none; }
-        .nav-links { list-style: none; display: flex; gap: 28px; }
-        .nav-links a { text-decoration: none; color: #fdf0c0; font-weight: 600; font-size: 0.95rem; transition: color 0.2s; }
-        .nav-links a:hover { color: #f5a623; }
-        #home { position: relative; height: 25vh; margin-top: 56px; overflow: hidden; }
-        .hero-bg { width: 100%; height: 350%; background-image: url("{{ url_for('static', filename='images/Name.jpeg') }}"); background-size: 100% 30%; background-position: top; background-repeat: no-repeat; background-color: #1a3a6e; }
-        .hero-overlay { position: absolute; inset: 0; background: rgba(10,30,80,0.55); }
-        .hero-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding-left: 0; }
-        .sign-board { background: transparent; border: none; border-radius: 0; padding: 44px 54px; text-align: center; }
-        .sign-board::before { display: none; }
-        .shop-name-big { font-family: 'Tiro Devanagari Marathi', serif; font-size: 3.6rem; color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.5), 2px 2px 8px rgba(0,0,0,0.3); line-height: 1.2; }
-        .shop-name-sub { font-family: 'Tiro Devanagari Marathi', serif; font-size: 2rem; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.4); }
-        .city-name { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.4rem; color: #fdf0c0; letter-spacing: 6px; }
-        .tagline { margin-top: 16px; font-size: 0.85rem; color: #f5a623; letter-spacing: 2px; text-transform: uppercase; }
-        #services { padding: 0px 40px; background: #1a0a2e; text-align: center; }
-        .section-title { font-family: 'Tiro Devanagari Marathi', serif; font-size: 2.4rem; color: #f5a623; margin-bottom: 8px; }
-        .section-sub { color: #c084d8; margin-bottom: 50px; font-size: 1rem; letter-spacing: 1px; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
-        .card { background: linear-gradient(145deg, #2d0f5e, #1e0840); border: 2px solid #f5a623; border-radius: 14px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(245,166,35,0.3); }
-        .card-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 2px solid #f5a623; }
-        .card-icon { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 4.5rem; background: linear-gradient(135deg, #3b1a6e, #2d0f5e); border-bottom: 2px solid #f5a623; }
-        .card-body { padding: 22px; text-align: left; }
-        .card-body h3 { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.3rem; color: #fdf0c0; margin-bottom: 6px; }
-        .card-body .eng { color: #f5a623; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-        .card-body p { color: #c9a8e8; font-size: 0.9rem; line-height: 1.6; }
-        #gallery { padding: 80px 40px; background: #150826; text-align: center; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto; }
-        .gallery-grid img { width: 70%; height: 250px; object-fit: contain; background: #0d0518; border-radius: 10px; border: 2px solid #f5a623; transition: transform 0.3s; }
-        .gallery-grid img:hover { transform: scale(1.03); }
-        #about { background: #1a0a2e; padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .about-img { width: 380px; height: 280px; object-fit: cover; border-radius: 12px; border: 3px solid #f5a623; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
-        .about-text { max-width: 480px; }
-        .about-text h2 { font-family: 'Tiro Devanagari Marathi', serif; font-size: 2.2rem; color: #f5a623; margin-bottom: 16px; }
-        .about-text p { color: #c9a8e8; font-size: 1rem; line-height: 1.8; margin-bottom: 12px; }
-        .about-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
-        .badge { background: #f5a623; color: #3b006e; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; }
-        #contact { padding: 80px 40px; background: #1a0a2e; text-align: center; }
-        .contact-grid { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 40px; }
-        .contact-card { background: linear-gradient(145deg, #2d0f5e, #1e0840); border: 2px solid #f5a623; border-radius: 14px; padding: 30px 36px; min-width: 200px; text-align: center; }
-        .contact-card .icon { font-size: 2.4rem; margin-bottom: 12px; }
-        .contact-card .label { color: #c084d8; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .contact-card .value { font-family: 'Tiro Devanagari Marathi', serif; font-size: 1.1rem; color: #fdf0c0; }
-        .whatsapp-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
-        .wa-btn { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+        body { font-family: 'Poppins', sans-serif; background: #fff; color: #222; }
+
+        /* NAVBAR */
+        .top-bar { background: #1a237e; padding: 10px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .top-bar .brand { color: #fff; font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; }
+        .top-bar .right { display: flex; align-items: center; gap: 20px; }
+        .top-bar .phone { color: #fff; font-size: 0.95rem; }
+        .top-bar .quote-btn { background: #ff6f00; color: #fff; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .top-bar .quote-btn:hover { background: #e65100; }
+
+        nav { background: #fff; border-bottom: 2px solid #eee; padding: 12px 40px; display: flex; gap: 30px; align-items: center; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: #ff6f00; }
+
+        /* HERO */
+        .hero { background: #1a237e; display: flex; align-items: center; padding: 60px 40px; gap: 40px; min-height: 420px; position: relative; overflow: hidden; }
+        .hero-text { flex: 1; z-index: 1; }
+        .hero-text h1 { font-size: 3rem; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+        .hero-text h1 span { color: #ff6f00; }
+        .hero-text p { color: #c5cae9; font-size: 1.1rem; margin-bottom: 28px; }
+        .hero-btn { background: #ff6f00; color: #fff; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 1rem; display: inline-block; transition: background 0.2s; }
+        .hero-btn:hover { background: #e65100; }
+        .hero-img { flex: 1; z-index: 1; }
+        .hero-img img { width: 100%; max-width: 500px; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+
+        /* SPECIALTIES */
+        .specialties { padding: 70px 40px; text-align: center; background: #f8f9fa; }
+        .specialties h2 { font-size: 2rem; font-weight: 800; color: #1a237e; margin-bottom: 40px; letter-spacing: 1px; }
+        .specialties-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .spec-card { background: #fff; border-radius: 12px; padding: 36px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+        .spec-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+        .spec-card .number { position: absolute; top: 16px; left: 16px; background: #ff6f00; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+        .spec-card .icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .spec-card h3 { font-size: 1.1rem; font-weight: 700; color: #1a237e; margin-bottom: 10px; }
+        .spec-card p { color: #666; font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px; }
+        .spec-card .view-btn { background: #1a237e; color: #fff; padding: 8px 20px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
+        .spec-card .view-btn:hover { background: #ff6f00; }
+
+        /* GALLERY */
+        #gallery { padding: 70px 40px; text-align: center; background: #fff; }
+        #gallery h2 { font-size: 2rem; font-weight: 800; color: #1a237e; margin-bottom: 40px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 5px; max-width: 1000px; margin: 0 auto; }
+        .gallery-grid img { width: 75%; height: 200px; object-fit: cover; border-radius: 10px; border: 3px solid #eee; transition: transform 0.3s, border-color 0.3s; }
+        .gallery-grid img:hover { transform: scale(1.03); border-color: #ff6f00; }
+
+        /* ABOUT */
+        #about { padding: 70px 40px; background: #f8f9fa; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; }
+        .about-text { flex: 1; min-width: 280px; }
+        .about-text h2 { font-size: 2rem; font-weight: 800; color: #1a237e; margin-bottom: 20px; }
+        .about-text p { color: #555; font-size: 1rem; line-height: 1.8; margin-bottom: 12px; }
+        .about-img { flex: 1; min-width: 280px; }
+        .about-img img { width: 40%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+
+        /* CONTACT */
+        #contact { padding: 70px 40px; background: #1a237e; text-align: center; }
+        #contact h2 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 40px; }
+        .contact-grid { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+        .contact-card { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 28px 32px; min-width: 200px; text-align: center; }
+        .contact-card .icon { font-size: 2rem; margin-bottom: 10px; }
+        .contact-card .label { color: #c5cae9; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .contact-card .value { color: #fff; font-size: 1.1rem; font-weight: 600; }
+        .whatsapp-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .wa-btn { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background 0.2s, transform 0.2s; }
         .wa-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
-        .map-wrap { margin-top: 50px; border-radius: 14px; overflow: hidden; border: 3px solid #f5a623; max-width: 800px; margin-left: auto; margin-right: auto; }
-        footer { background: #0d0518; text-align: center; padding: 24px; color: #6b4f8a; font-size: 0.85rem; border-top: 2px solid #2d0f5e; }
+
+        /* MAP */
+        .map-wrap { margin-top: 50px; border-radius: 14px; overflow: hidden; border: 3px solid rgba(255,255,255,0.2); max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* FOOTER */
+        footer { background: #0d1547; text-align: center; padding: 24px; color: #7986cb; font-size: 0.85rem; }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            nav { padding: 12px 20px; }
-            .nav-links { gap: 14px; }
-            .hero-content { padding-left: 5%; }
-            .shop-name-big { font-size: 2.4rem; }
-            .sign-board { padding: 30px 24px; }
-            #about { padding: 50px 20px; flex-direction: column; }
-            .about-img { width: 100%; }
+            .top-bar { padding: 10px 20px; flex-direction: column; gap: 10px; }
+            nav { padding: 12px 20px; gap: 16px; flex-wrap: wrap; }
+            .hero { flex-direction: column; padding: 40px 20px; text-align: center; }
+            .hero-text h1 { font-size: 2rem; }
+            .specialties, #gallery, #contact { padding: 50px 20px; }
         }
     </style>
 </head>
 <body>
 
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="brand">PRATAP COACHING WORKS</div>
+    <div class="right">
+        <span class="phone">📞 94226 13763</span>
+        <a href="https://wa.me/919422613763" class="quote-btn">REQUEST A QUOTE</a>
+    </div>
+</div>
+
+<!-- NAVBAR -->
 <nav>
-    <a href="#home" class="nav-brand">Pratap Coaching Works</a>
-    <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
+    <a href="#home" class="active">HOME</a>
+    <a href="#services">SERVICES</a>
+    <a href="#gallery">GALLERY</a>
+    <a href="#about">ABOUT US</a>
+    <a href="#contact">CONTACT</a>
 </nav>
 
-<section id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-text">
+        <h1>REVAMP YOUR <span>AUTO RICKSHAW!</span></h1>
+        <p>Premium Covers & Accessories for your AUTO Rickshaw.</p>
+        <a href="#contact" class="hero-btn">CONTACT US NOW</a>
+    </div>
+    <div class="hero-img">
+        <img src="{{ url_for('static', filename='images/Rikshaw4.jpeg') }}" alt="Rickshaw">
+    </div>
+</section>
+
+<!-- SPECIALTIES -->
+<section class="specialties" id="services">
+    <h2>OUR SPECIALTIES</h2>
+    <div class="specialties-grid">
+        <div class="spec-card">
+            <div class="number">1</div>
+            <div class="icon">🛺</div>
+            <h3>ROOFTOP COVERS</h3>
+            <p>Premium auto rickshaw rooftop covers. Durable and weather resistant.</p>
+            <a href="#gallery" class="view-btn">VIEW DESIGNS</a>
+        </div>
+        <div class="spec-card">
+            <div class="number">2</div>
+            <div class="icon">💺</div>
+            <h3>SEAT COVERS</h3>
+            <p>Cushioned seat covers and upholstery to customize your seat.</p>
+            <a href="#gallery" class="view-btn">VIEW DESIGNS</a>
+        </div>
+        <div class="spec-card">
+            <div class="number">3</div>
+            <div class="icon">🛞</div>
+            <h3>TYRE FLAPS & ACCESSORIES</h3>
+            <p>Mudguards and tyre flaps accessories for all rickshaw types.</p>
+            <a href="#gallery" class="view-btn">VIEW DESIGNS</a>
         </div>
     </div>
 </section>
 
-
-<section id="services">
-    <h2 class="section-title">Our Services</h2>
-    <p class="section-sub">What We Do Best</p>
-    <div class="cards-grid">
-        <div class="card">
-            <img src="{{ url_for('static', filename='images/Rickshaw1.jpg') }}" alt="Roof Cover" class="card-img">
-            <div class="card-body">
-                <h3>Roof Cover</h3>
-                <div class="eng">Hood / Roof Cover</div>
-                <p>New roof covers made for auto rickshaw. Protection from sun, rain and dust. Long lasting quality material.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="{{ url_for('static', filename='images/rickshaw2.jpg') }}" alt="Seat Cover" class="card-img">
-            <div class="card-body">
-                <h3>Seat Cover</h3>
-                <div class="eng">Seat Covers</div>
-                <p>Comfortable and attractive seat covers. Available in different colors and designs.</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-icon">🛞</div>
-            <div class="card-body">
-                <h3>Tyre Flaps</h3>
-                <div class="eng">Tyre Flaps</div>
-                <p>Tyre flaps installed on the sides. Protects the auto rickshaw from mud and water.</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-icon">💺</div>
-            <div class="card-body">
-                <h3>Custom Seat Making</h3>
-                <div class="eng">Custom Seat Making</div>
-                <p>New seats made with quality foam and fabric. Comfortable for all passengers.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- GALLERY -->
 <section id="gallery">
-    <h2 class="section-title">Our Work</h2>
-    <p class="section-sub">See What We Have Done</p>
+    <h2>OUR WORK</h2>
     <div class="gallery-grid">
-        <img src="{{ url_for('static', filename='images/Rikshaw2.jpg') }}" alt="Work 1">
-        <img src="{{ url_for('static', filename='images/Rikshaw3.jpg') }}" alt="Work 2">
+        <img src="{{ url_for('static', filename='images/image1.jpeg') }}" alt="Work 1" onclick="openLightbox(this.src)" style="cursor:pointer;">
+        <img src="{{ url_for('static', filename='images/Rikshaw1.jpg') }}" alt="Work 2" onclick="openLightbox(this.src)" style="cursor:pointer;">
+        <img src="{{ url_for('static', filename='images/Rikshaw3.jpg') }}" alt="Work 3" onclick="openLightbox(this.src)" style="cursor:pointer;">
+        <img src="{{ url_for('static', filename='images/image2.jpeg') }}" alt="Work 4" onclick="openLightbox(this.src)" style="cursor:pointer;">
+        <img src="{{ url_for('static', filename='images/image3.jpeg') }}" alt="Work 5" onclick="openLightbox(this.src)" style="cursor:pointer;">
     </div>
 </section>
 
-<section id="about">
-    <div class="about-text">
-        <h2>About Us</h2>
-        <p>Pratap Coaching Works is Miraj's most trusted auto rickshaw workshop. We have been serving rickshaw owners with quality workmanship for 30 years.</p>
-        <p>We specialize in roof covers, seat covers, tyre flaps, and custom seat making. Our work is durable, affordable, and done with care.</p>
-        <div class="about-badges">
-            <span class="badge">Trusted Quality</span>
-            <span class="badge">Expert Craftsmen</span>
-            <span class="badge">Best Prices</span>
+<!-- ABOUT -->
+<section id="about" style="background:#f8f9fa; padding: 70px 40px;">
+    <div style="max-width:1100px; margin:0 auto; display:flex; gap:60px; flex-wrap:wrap; align-items:center;">
+        <div style="flex:1; min-width:280px;">
+            <h2 style="font-size:2rem; font-weight:800; color:#1a237e; margin-bottom:20px;">OUR STORY</h2>
+            <p style="color:#555; line-height:1.8; margin-bottom:12px;">Pratap Coaching Works is Miraj's most trusted auto rickshaw workshop. We have been serving rickshaw owners with quality craftsmanship for over 30 years.</p>
+            <p style="color:#555; line-height:1.8;">We specialize in roof covers, seat covers, tyre flaps. Our work is durable, affordable, and done with care.</p>
+            <br><br><p style="color:#555; line-height:1.8;"><strong>Owners:</strong>Jayhind Gavankar & Pratap Gavankar</p>
+        </div>
+        <div style="flex:1; min-width:280px;">
+            <img src="{{ url_for('static', filename='images/Rikshaw1.jpg') }}" alt="About" style="width:60%; border-radius:12px; margin-left: auto; margin-right: 0; box-shadow:0 8px 30px rgba(0,0,0,0.15);">
         </div>
     </div>
 </section>
 
-
+<!-- CONTACT -->
 <section id="contact">
-    <h2 class="section-title">Contact Us</h2>
-    <p class="section-sub">We Are Always Here To Help</p>
+    <h2>CONTACT US</h2>
     <div class="contact-grid">
         <div class="contact-card">
             <div class="icon">📍</div>
@@ -176,18 +199,34 @@
         <a href="https://wa.me/919422613763" target="_blank" class="wa-btn">
             💬 WhatsApp: 94226 13763
         </a>
-        <a href="https://wa.me/919423230535" target="_blank" class="wa-btn">
-            💬 WhatsApp: 94232 30535
-        </a>
     </div>
-    <div class="map-wrap">
+    <div class="map-wrap" style="margin-top:40px;">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3821.5!2d74.6560!3d16.8280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc1240914938d09%3A0x7f29f37b0c7d5f5c!2sMiraj%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-    <p>Pratap Coaching Works, Miraj | All Rights Reserved | Made with love in Miraj</p>
+    <p>© 2026 Pratap Coaching Works, Miraj | All Rights Reserved | Made with ❤️ in Miraj</p>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center;">
+    <span onclick="closeLightbox()" style="position:absolute; top:20px; right:30px; color:#fff; font-size:2.5rem; cursor:pointer;">✕</span>
+    <img id="lightbox-img" src="" style="max-width:90%; max-height:90vh; border-radius:10px; box-shadow:0 8px 40px rgba(0,0,0,0.8);">
+</div>
+
+<script>
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+}
+document.getElementById('lightbox').addEventListener('click', function(e) {
+    if(e.target === this) closeLightbox();
+});
+</script>
 </body>
 </html>
