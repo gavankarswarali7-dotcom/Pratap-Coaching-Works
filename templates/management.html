@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration & Automated Billing - Pratap Coaching Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-dark: #0d1547;
+            --accent: #ff6f00;
+            --accent-hover: #e65100;
+            --bg-light: #f4f6f9;
+            --text-dark: #2c3e50;
+            --success: #2e7d32;
+            --warning: #ed6c02;
+            --danger: #d32f2f;
+            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* HEADER & TOP BAR */
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap; gap: 15px; }
+        header .brand-title { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+        header .brand-title span { color: var(--accent); }
+        header .nav-actions { display: flex; gap: 12px; align-items: center; }
+        
+        .lang-switch { display: flex; background: rgba(255,255,255,0.15); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.25); }
+        .lang-btn { background: none; border: none; color: white; padding: 5px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.85rem; transition: background 0.2s; }
+        .lang-btn.active { background: var(--accent); color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+
+        .btn-website { background: rgba(255,255,255,0.15); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.3); transition: background 0.2s; }
+        .btn-website:hover { background: rgba(255,255,255,0.25); }
+
+        /* DASHBOARD SUMMARY COUNTERS */
+        .metrics-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 20px 30px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .metric-card { background: white; border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 16px; border-left: 5px solid var(--primary); }
+        .metric-card.accent { border-left-color: var(--accent); }
+        .metric-card.warning { border-left-color: var(--warning); }
+        .metric-icon { width: 48px; height: 48px; border-radius: 10px; background: #f0f2ff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary); }
+        .metric-card.accent .metric-icon { background: #fff3e0; color: var(--accent); }
+        .metric-card.warning .metric-icon { background: #fff4e5; color: var(--warning); }
+        .metric-val { font-size: 1.5rem; font-weight: 800; line-height: 1.2; }
+        .metric-lbl { font-size: 0.8rem; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* MAIN LAYOUT & TABS */
+        .container { max-width: 1400px; width: 100%; margin: 0 auto; padding: 0 30px 40px; flex: 1; }
+        
+        .tab-nav { display: flex; gap: 8px; border-bottom: 2px solid #e0e0e0; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn { background: none; border: none; padding: 12px 20px; font-weight: 700; font-size: 0.95rem; color: #555; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--accent); background: white; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+        .tab-btn .badge-num { background: var(--accent); color: white; font-size: 0.75rem; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARDS & FORMS */
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow); margin-bottom: 24px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+        .card-title { font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .metrics-bar { padding: 15px; }
+            .container { padding: 0 15px 30px; }
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; color: #333; }
+        .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #ccc; border-radius: 8px; font-size: 0.95rem; transition: border-color 0.2s; outline: none; }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,35,126,0.15); }
+
+        /* BUTTONS */
+        .btn { padding: 11px 22px; border-radius: 8px; border: none; font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { background: var(--accent-hover); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #1b5e20; }
+        .btn-outline { background: transparent; border: 1.5px solid #ccc; color: #444; }
+        .btn-outline:hover { background: #f0f0f0; }
+
+        /* ORDER ITEMS TABLE */
+        .table-responsive { overflow-x: auto; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+        table th { background: #f0f2ff; color: var(--primary-dark); font-weight: 800; text-align: left; padding: 13px 14px; border-bottom: 2px solid #d0d7de; }
+        table td { padding: 13px 14px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        table tbody tr:hover { background: #f9fafe; }
+
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 800; display: inline-block; }
+        .badge-completed { background: #e8f5e9; color: var(--success); }
+        .badge-pending { background: #fff3e0; color: var(--warning); }
+
+        /* BILL SUMMARY BOX */
+        .bill-summary { background: #f8f9fa; border: 2px dashed #d0d0d0; border-radius: 12px; padding: 20px; }
+        .bill-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.95rem; font-weight: 600; }
+        .bill-row.total { border-top: 2px solid #222; border-bottom: 2px solid #222; padding: 10px 0; margin-top: 8px; font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+        .bill-row.balance { font-weight: 800; color: var(--warning); font-size: 1.05rem; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 999; padding: 20px; }
+        .modal-card { background: white; border-radius: 12px; max-width: 500px; width: 100%; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: popIn 0.25s ease; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* SERVICE CARDS */
+        .service-card { background: white; border: 2px solid #e8eaf0; border-radius: 12px; padding: 16px 14px; cursor: pointer; transition: all 0.2s; text-align: center; position: relative; user-select: none; }
+        .service-card:hover { border-color: var(--primary); box-shadow: 0 4px 16px rgba(26,35,126,0.15); transform: translateY(-3px); }
+        .service-card.in-cart { border-color: var(--success); background: #f0fdf4; }
+        .service-card .svc-icon { font-size: 2.4rem; margin-bottom: 8px; }
+        .service-card .svc-name { font-weight: 700; font-size: 0.88rem; color: var(--primary-dark); line-height: 1.3; margin-bottom: 6px; }
+        .service-card .svc-price { font-size: 1rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .service-card .svc-cat { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .svc-qty-ctrl { display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .svc-qty-ctrl button { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
+        .svc-qty-ctrl button:hover { background: var(--accent); }
+        .svc-qty-ctrl span { font-weight: 800; font-size: 1rem; min-width: 22px; text-align: center; color: var(--primary); }
+        .svc-add-btn { width: 100%; margin-top: 8px; padding: 7px; border-radius: 7px; border: none; background: var(--primary); color: white; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: background 0.2s; }
+        .svc-add-btn:hover { background: var(--accent); }
+        .in-cart-badge { position: absolute; top: 8px; right: 8px; background: var(--success); color: white; font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand-title">
+            🛺 PRATAP COACHING WORKS <span data-i18n="header-portal">| BILLING PORTAL</span>
+        </div>
+        <div class="nav-actions">
+            <!-- LANGUAGE SWITCHER -->
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="changeLang('en')">English</button>
+                <button class="lang-btn" onclick="changeLang('mr')">मराठी</button>
+                <button class="lang-btn" onclick="changeLang('hi')">हिंदी</button>
+            </div>
+            <a href="/" class="btn-website" data-i18n="btn-website">🌐 View Customer Website</a>
+        </div>
+    </header>
+
+    <!-- METRICS BAR -->
+    <div class="metrics-bar">
+        <div class="metric-card">
+            <div class="metric-icon">📑</div>
+            <div>
+                <div class="metric-val" id="stat-total-orders">0</div>
+                <div class="metric-lbl" data-i18n="stat-orders">Total Orders Processed</div>
+            </div>
+        </div>
+        <div class="metric-card accent">
+            <div class="metric-icon">💰</div>
+            <div>
+                <div class="metric-val" id="stat-total-sales">₹0</div>
+                <div class="metric-lbl" data-i18n="stat-sales">Total Revenue Collected</div>
+            </div>
+        </div>
+        <div class="metric-card warning">
+            <div class="metric-icon">⏳</div>
+            <div>
+                <div class="metric-val" id="stat-pending-balance">₹0</div>
+                <div class="metric-lbl" data-i18n="stat-pending">Total Pending Balance</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- NAVIGATION TABS -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('new-order', this)" data-i18n="tab-new-order">📝 Customer Registration & Billing</button>
+            <button class="tab-btn" onclick="switchTab('all-orders', this)" data-i18n="tab-all-orders">🧾 All Orders & Invoices</button>
+            <button class="tab-btn" onclick="switchTab('pending-balances', this)" data-i18n="tab-pending">💰 Pending Balances Ledger <span class="badge-num" id="pending-count-badge">0</span></button>
+            <button class="tab-btn" onclick="switchTab('services-cat', this)" data-i18n="tab-services">🛠️ Service Catalog & Rates</button>
+        </div>
+
+        <!-- TAB 1: NEW ORDER & AUTOMATED BILLING -->
+        <div id="tab-new-order" class="tab-content active">
+            <div class="grid-3" style="grid-template-columns: 2fr 1fr;">
+                <div>
+                    <!-- CUSTOMER REGISTRATION -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title" data-i18n="card-cust-title">👤 Customer & Vehicle Registration</div>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label data-i18n="lbl-cust-name">Customer Name *</label>
+                                <input type="text" id="cust-name" class="form-control" placeholder="e.g. Ramesh Kulkarni" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="lbl-cust-phone">Phone Number *</label>
+                                <input type="tel" id="cust-phone" class="form-control" placeholder="e.g. 98220 12345" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="lbl-cust-veh">Vehicle / Rickshaw Number</label>
+                                <input type="text" id="cust-vehicle" class="form-control" placeholder="e.g. MH 10 AB 4321">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SERVICE CARDS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title" data-i18n="card-service-title">🛠️ Select Services / Work Items</div>
+                            <small style="color:#888; font-size:0.82rem;" data-i18n="service-hint">Click a service card to add it to the bill</small>
+                        </div>
+
+                        <!-- SERVICE CARDS GRID -->
+                        <div id="service-cards-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:20px;">
+                            <!-- Populated via JS -->
+                        </div>
+
+                        <!-- CUSTOM ITEM ROW -->
+                        <div style="background:#f8f9fa; border-radius:10px; padding:14px; margin-bottom:16px; border:1.5px dashed #ccc;">
+                            <div style="font-weight:700; font-size:0.88rem; color:#555; margin-bottom:10px;" data-i18n="lbl-custom-item">➕ Add Custom / Other Work Item</div>
+                            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:10px; align-items:end;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label data-i18n="lbl-custom-name" style="font-size:0.8rem;">Work Description</label>
+                                    <input type="text" id="custom-item-name" class="form-control" placeholder="e.g. Hood Repair / Stitching">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label data-i18n="lbl-rate" style="font-size:0.8rem;">Rate (₹)</label>
+                                    <input type="number" id="custom-item-rate" class="form-control" placeholder="0">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label data-i18n="lbl-qty" style="font-size:0.8rem;">Qty</label>
+                                    <input type="number" id="custom-item-qty" class="form-control" value="1" min="1">
+                                </div>
+                                <button type="button" class="btn btn-primary" style="padding:10px 14px;" onclick="addCustomItem()" title="Add to Bill">➕</button>
+                            </div>
+                        </div>
+
+                        <!-- BILL ITEMS TABLE -->
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th data-i18n="th-service">Service / Item</th>
+                                        <th data-i18n="th-rate">Rate (₹)</th>
+                                        <th data-i18n="th-qty">Qty</th>
+                                        <th data-i18n="th-amount">Amount (₹)</th>
+                                        <th data-i18n="th-action">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-items-tbody">
+                                    <tr id="empty-cart-row">
+                                        <td colspan="6" style="text-align:center; color:#aaa; padding:24px;" data-i18n="msg-no-items">
+                                            👆 Click a service card above to add it to the bill.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BILLING & PAYMENT SUMMARY -->
+                <div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title" data-i18n="card-bill-title">🧾 Automated Bill Breakdown</div>
+                        </div>
+
+                        <div class="bill-summary">
+                            <div class="bill-row">
+                                <span data-i18n="lbl-subtotal">Subtotal:</span>
+                                <span id="bill-subtotal">₹0.00</span>
+                            </div>
+                            <div class="bill-row">
+                                <span data-i18n="lbl-discount">Discount (₹):</span>
+                                <span><input type="number" id="bill-discount" class="form-control" style="width:90px; text-align:right; padding:4px 8px;" value="0" oninput="calculateBillTotals()"></span>
+                            </div>
+                            <div class="bill-row">
+                                <span data-i18n="lbl-tax">Tax / GST (₹):</span>
+                                <span><input type="number" id="bill-tax" class="form-control" style="width:90px; text-align:right; padding:4px 8px;" value="0" oninput="calculateBillTotals()"></span>
+                            </div>
+                            <div class="bill-row total">
+                                <span data-i18n="lbl-grand-total">Grand Total:</span>
+                                <span id="bill-grand-total">₹0.00</span>
+                            </div>
+                            <hr style="margin: 10px 0; border: none; border-top: 1px solid #ddd;">
+                            <div class="form-group" style="margin-top:10px;">
+                                <label data-i18n="lbl-paid-today">Amount Paid Today (₹) *</label>
+                                <input type="number" id="bill-paid" class="form-control" style="font-size:1.1rem; font-weight:700; color:var(--success);" value="0" oninput="calculateBillTotals()">
+                            </div>
+                            <div class="bill-row balance">
+                                <span data-i18n="lbl-pending-bal">Pending Balance:</span>
+                                <span id="bill-pending">₹0.00</span>
+                            </div>
+                            <div class="form-group" style="margin-top:10px;">
+                                <label data-i18n="lbl-pay-mode">Payment Mode</label>
+                                <select id="bill-paymode" class="form-control">
+                                    <option value="Cash" data-i18n="opt-cash">💵 Cash</option>
+                                    <option value="UPI / PhonePe / GPay">📱 UPI / PhonePe / GPay</option>
+                                    <option value="Bank Transfer" data-i18n="opt-bank">🏦 Bank Transfer</option>
+                                    <option value="Card" data-i18n="opt-card">💳 Credit / Debit Card</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:20px;">
+                            <button class="btn btn-accent" style="width:100%; padding:14px; font-size:1.05rem;" onclick="submitOrderAndGenerateBill()" data-i18n="btn-generate-bill">🚀 Save Registration & Generate Bill</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL ORDERS & INVOICES -->
+        <div id="tab-all-orders" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" data-i18n="card-all-orders-title">🧾 All Registered Orders & Invoices</div>
+                    <div>
+                        <input type="text" id="search-orders" class="form-control" placeholder="Search by customer name, phone or vehicle..." onkeyup="filterOrdersTable()" data-i18n-ph="ph-search-orders">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="th-inv-no">Invoice #</th>
+                                <th data-i18n="th-date">Date</th>
+                                <th data-i18n="th-cust-details">Customer Details</th>
+                                <th data-i18n="th-veh-no">Vehicle No</th>
+                                <th data-i18n="th-total-bill">Total Bill</th>
+                                <th data-i18n="th-paid">Paid</th>
+                                <th data-i18n="th-balance">Balance Due</th>
+                                <th data-i18n="th-status">Status</th>
+                                <th data-i18n="th-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-orders-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PENDING BALANCES LEDGER -->
+        <div id="tab-pending-balances" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" data-i18n="card-pending-title">💰 Customer Pending Balances Ledger</div>
+                </div>
+                <p style="color:#666; margin-bottom:15px; font-size:0.9rem;" data-i18n="msg-pending-desc">Track all unpaid and partial balances for registered customers. Click "Collect Payment" to update balances.</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="th-inv-no">Invoice #</th>
+                                <th data-i18n="th-date">Date</th>
+                                <th data-i18n="th-cust-name">Customer Name</th>
+                                <th data-i18n="th-phone">Phone Number</th>
+                                <th data-i18n="th-veh-no">Vehicle No</th>
+                                <th data-i18n="th-total-bill">Total Bill</th>
+                                <th data-i18n="th-paid">Amount Paid</th>
+                                <th data-i18n="th-balance">Pending Balance</th>
+                                <th data-i18n="th-action">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-balances-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SERVICE CATALOG -->
+        <div id="tab-services-cat" class="tab-content">
+            <div class="grid-3" style="grid-template-columns: 2fr 1fr;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title" data-i18n="card-services-cat-title">🛠️ Master Services & Rates Catalog</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th-service-name">Service Name</th>
+                                    <th data-i18n="th-category">Category</th>
+                                    <th data-i18n="th-desc">Description</th>
+                                    <th data-i18n="th-default-price">Default Price (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="services-tbody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title" data-i18n="card-add-service-title">➕ Add New Service</div>
+                    </div>
+                    <form onsubmit="saveServiceItem(event)">
+                        <input type="hidden" id="service-id">
+                        <div class="form-group">
+                            <label data-i18n="lbl-service-name">Service / Work Name *</label>
+                            <input type="text" id="service-name" class="form-control" placeholder="e.g. Roof Hood Stitching" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="lbl-category">Category</label>
+                            <input type="text" id="service-cat" class="form-control" placeholder="Seat Covers / Hoods / Flaps">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="lbl-default-price">Default Price (₹) *</label>
+                            <input type="number" id="service-price" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="lbl-desc">Description</label>
+                            <textarea id="service-desc" class="form-control" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;" data-i18n="btn-save-service">Save Service</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLLECT PAYMENT MODAL -->
+    <div class="modal-overlay" id="pay-modal">
+        <div class="modal-card">
+            <h3 style="margin-bottom:15px; color:var(--primary);" data-i18n="modal-collect-title">💵 Collect Customer Pending Payment</h3>
+            <input type="hidden" id="modal-order-id">
+            <div class="form-group">
+                <label data-i18n="lbl-cust-name">Customer Name</label>
+                <input type="text" id="modal-cust-name" class="form-control" readonly style="background:#eee;">
+            </div>
+            <div class="form-group">
+                <label data-i18n="lbl-pending-bal">Pending Due Balance (₹)</label>
+                <input type="text" id="modal-due-bal" class="form-control" readonly style="background:#fff3e0; color:var(--warning); font-weight:800;">
+            </div>
+            <div class="form-group">
+                <label data-i18n="lbl-amt-collected">Amount Collected Now (₹) *</label>
+                <input type="number" id="modal-pay-amt" class="form-control" required style="font-size:1.1rem; font-weight:700; color:var(--success);">
+            </div>
+            <div class="form-group">
+                <label data-i18n="lbl-pay-mode">Payment Mode</label>
+                <select id="modal-pay-mode" class="form-control">
+                    <option value="Cash" data-i18n="opt-cash">💵 Cash</option>
+                    <option value="UPI / PhonePe / GPay">📱 UPI / PhonePe / GPay</option>
+                    <option value="Bank Transfer" data-i18n="opt-bank">🏦 Bank Transfer</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:20px; justify-content:flex-end;">
+                <button type="button" class="btn btn-outline" onclick="closeModal()" data-i18n="btn-cancel">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="submitCollectPayment()" data-i18n="btn-record-pay">Record Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSLATIONS DICTIONARY & APP LOGIC -->
+    <script>
+        const i18n = {
+            en: {
+                'header-portal': '| BILLING PORTAL',
+                'btn-website': '🌐 View Customer Website',
+                'stat-orders': 'Total Orders Processed',
+                'stat-sales': 'Total Revenue Collected',
+                'stat-pending': 'Total Pending Balance',
+                'tab-new-order': '📝 Customer Registration & Billing',
+                'tab-all-orders': '🧾 All Orders & Invoices',
+                'tab-pending': '💰 Pending Balances Ledger',
+                'tab-services': '🛠️ Service Catalog & Rates',
+                'card-cust-title': '👤 Customer & Vehicle Registration',
+                'lbl-cust-name': 'Customer Name *',
+                'lbl-cust-phone': 'Phone Number *',
+                'lbl-cust-veh': 'Vehicle / Rickshaw Number',
+                'card-service-title': '🛠️ Service Work Selection',
+                'lbl-service-select': 'Select Service / Work Item',
+                'lbl-rate': 'Rate / Price (₹)',
+                'lbl-qty': 'Quantity',
+                'btn-add-item': '➕ Add Item to Bill',
+                'th-service': 'Service / Item',
+                'th-rate': 'Rate',
+                'th-qty': 'Qty',
+                'th-amount': 'Amount',
+                'th-action': 'Action',
+                'msg-no-items': 'No items added yet. Select a service above and click "Add Item to Bill".',
+                'card-bill-title': '🧾 Automated Bill Breakdown',
+                'lbl-subtotal': 'Subtotal:',
+                'lbl-discount': 'Discount (₹):',
+                'lbl-tax': 'Tax / GST (₹):',
+                'lbl-grand-total': 'Grand Total:',
+                'lbl-paid-today': 'Amount Paid Today (₹) *',
+                'lbl-pending-bal': 'Pending Balance:',
+                'lbl-pay-mode': 'Payment Mode',
+                'opt-cash': '💵 Cash',
+                'opt-bank': '🏦 Bank Transfer',
+                'opt-card': '💳 Credit / Debit Card',
+                'btn-generate-bill': '🚀 Save Registration & Generate Bill',
+                'card-all-orders-title': '🧾 All Registered Orders & Invoices',
+                'ph-search-orders': 'Search by customer name, phone or vehicle...',
+                'th-inv-no': 'Invoice #',
+                'th-date': 'Date',
+                'th-cust-details': 'Customer Details',
+                'th-veh-no': 'Vehicle No',
+                'th-total-bill': 'Total Bill',
+                'th-paid': 'Paid',
+                'th-balance': 'Balance Due',
+                'th-status': 'Status',
+                'th-actions': 'Actions',
+                'card-pending-title': '💰 Customer Pending Balances Ledger',
+                'msg-pending-desc': 'Track all unpaid and partial balances for registered customers. Click "Collect Payment" to update balances.',
+                'th-cust-name': 'Customer Name',
+                'th-phone': 'Phone Number',
+                'card-services-cat-title': '🛠️ Master Services & Rates Catalog',
+                'th-service-name': 'Service Name',
+                'th-category': 'Category',
+                'th-desc': 'Description',
+                'th-default-price': 'Default Price (₹)',
+                'card-add-service-title': '➕ Add New Service',
+                'lbl-service-name': 'Service / Work Name *',
+                'lbl-category': 'Category',
+                'lbl-default-price': 'Default Price (₹) *',
+                'lbl-desc': 'Description',
+                'btn-save-service': 'Save Service',
+                'modal-collect-title': '💵 Collect Customer Pending Payment',
+                'lbl-amt-collected': 'Amount Collected Now (₹) *',
+                'btn-cancel': 'Cancel',
+                'btn-record-pay': 'Record Payment'
+            },
+            mr: {
+                'header-portal': '| ग्राहक नोंदणी व बिलिंग पोर्टल',
+                'btn-website': '🌐 ग्राहकांची मुख्य वेबसाईट',
+                'stat-orders': 'एकूण पूर्ण झालेल्या ऑर्डर्स',
+                'stat-sales': 'एकूण जमा झालेली रक्कम',
+                'stat-pending': 'ग्राहकांकडे एकूण बाकी रक्कम',
+                'tab-new-order': '📝 ग्राहक नोंदणी व बिलिंग',
+                'tab-all-orders': '🧾 सर्व ऑर्डर्स व बिल्स',
+                'tab-pending': '💰 ग्राहकांची बाकी रक्कम (लेजर)',
+                'tab-services': '🛠️ कामांचे दरपत्रक (Rates)',
+                'card-cust-title': '👤 ग्राहक व रिक्षाची नोंदणी',
+                'lbl-cust-name': 'ग्राहकाचे नाव *',
+                'lbl-cust-phone': 'मोबाईल नंबर *',
+                'lbl-cust-veh': 'गाडी / रिक्षा नंबर (उदा. MH 10 AB 1234)',
+                'card-service-title': '🛠️ काम निवड',
+                'lbl-service-select': 'कामाचा प्रकार निवडा',
+                'lbl-rate': 'कामाची किंमत / दर (₹)',
+                'lbl-qty': 'नग / संख्या',
+                'btn-add-item': '➕ बिलामध्ये जोडा',
+                'th-service': 'कामाचे नाव',
+                'th-rate': 'दर (₹)',
+                'th-qty': 'संख्या',
+                'th-amount': 'एकूण रक्कम',
+                'th-action': 'क्रिया',
+                'msg-no-items': 'कोणतेही काम जोडलेले नाही. वरील यादीतून काम निवडा आणि "बिलामध्ये जोडा" वर क्लिक करा.',
+                'card-bill-title': '🧾 स्वयंचलित बिल हिशोब',
+                'lbl-subtotal': 'एकूण रक्कम (Subtotal):',
+                'lbl-discount': 'सूट / डिस्काउंट (₹):',
+                'lbl-tax': 'टॅक्स / जीएसटी (₹):',
+                'lbl-grand-total': 'अंतिम एकूण बिल:',
+                'lbl-paid-today': 'आज जमा केलेली रक्कम (₹) *',
+                'lbl-pending-bal': 'बाकी शिल्लक रक्कम:',
+                'lbl-pay-mode': 'पैसे भरण्याचा प्रकार',
+                'opt-cash': '💵 रोख (Cash)',
+                'opt-bank': '🏦 बँक ट्रान्सफर',
+                'opt-card': '💳 कार्ड (Debit/Credit)',
+                'btn-generate-bill': '🚀 ग्राहक नोंदणी व बिल प्रिंट करा',
+                'card-all-orders-title': '🧾 सर्व ग्राहकांच्या ऑर्डर्स व बिल्स',
+                'ph-search-orders': 'ग्राहकाचे नाव, मोबाईल किंवा रिक्षा नंबर शोधा...',
+                'th-inv-no': 'बिल नंबर #',
+                'th-date': 'तारीख',
+                'th-cust-details': 'ग्राहकाची माहिती',
+                'th-veh-no': 'रिक्षा नंबर',
+                'th-total-bill': 'एकूण बिल',
+                'th-paid': 'जमा रक्कम',
+                'th-balance': 'बाकी रक्कम',
+                'th-status': 'स्थिती (Status)',
+                'th-actions': 'पर्याय',
+                'card-pending-title': '💰 ग्राहकांची बाकी रक्कम (Pending Ledger)',
+                'msg-pending-desc': 'ज्या ग्राहकांची बाकी शिल्लक आहे त्यांची यादी. बाकी जमा करण्यासाठी "बाकी जमा करा" वर क्लिक करा.',
+                'th-cust-name': 'ग्राहकाचे नाव',
+                'th-phone': 'मोबाईल नंबर',
+                'card-services-cat-title': '🛠️ कामांचे दरपत्रक (Master Rates)',
+                'th-service-name': 'कामाचे नाव',
+                'th-category': 'प्रकार',
+                'th-desc': 'माहिती',
+                'th-default-price': 'दर / किंमत (₹)',
+                'card-add-service-title': '➕ नवीन काम दरपत्रकात जोडा',
+                'lbl-service-name': 'कामाचे नाव *',
+                'lbl-category': 'प्रकार',
+                'lbl-default-price': 'दर / किंमत (₹) *',
+                'lbl-desc': 'कामाची थोडक्यात माहिती',
+                'btn-save-service': 'काम सेव्ह करा',
+                'modal-collect-title': '💵 ग्राहकाची बाकी रक्कम जमा करा',
+                'lbl-amt-collected': 'आज जमा झालेली रक्कम (₹) *',
+                'btn-cancel': 'रद्द करा',
+                'btn-record-pay': 'रक्कम जमा करा'
+            },
+            hi: {
+                'header-portal': '| ग्राहक पंजीकरण व बिलिंग पोर्टल',
+                'btn-website': '🌐 ग्राहक वेबसाइट देखें',
+                'stat-orders': 'कुल पूर्ण ऑर्डर्स',
+                'stat-sales': 'कुल प्राप्त राशि',
+                'stat-pending': 'कुल बकाया राशि',
+                'tab-new-order': '📝 ग्राहक पंजीकरण और बिलिंग',
+                'tab-all-orders': '🧾 सभी ऑर्डर्स और बिल',
+                'tab-pending': '💰 ग्राहकों की बकाया राशि (लेजर)',
+                'tab-services': '🛠️ सेवाओं की दर सूची (Rates)',
+                'card-cust-title': '👤 ग्राहक और वाहन पंजीकरण',
+                'lbl-cust-name': 'ग्राहक का नाम *',
+                'lbl-cust-phone': 'मोबाइल नंबर *',
+                'lbl-cust-veh': 'गाड़ी / रिक्शा नंबर (उदा. MH 10 AB 1234)',
+                'card-service-title': '🛠️ काम का चयन',
+                'lbl-service-select': 'काम का प्रकार चुनें',
+                'lbl-rate': 'दर / कीमत (₹)',
+                'lbl-qty': 'मात्रा / संख्या',
+                'btn-add-item': '➕ बिल में जोड़ें',
+                'th-service': 'सेवा / काम का नाम',
+                'th-rate': 'दर (₹)',
+                'th-qty': 'संख्या',
+                'th-amount': 'कुल राशि',
+                'th-action': 'कार्रवाई',
+                'msg-no-items': 'अभी कोई काम नहीं जोड़ा गया है। ऊपर सूची से चुनें और "बिल में जोड़ें" पर क्लिक करें।',
+                'card-bill-title': '🧾 स्वचालित बिल गणना',
+                'lbl-subtotal': 'कुल राशि (Subtotal):',
+                'lbl-discount': 'छूट / डिस्काउंट (₹):',
+                'lbl-tax': 'टैक्स / जीएसटी (₹):',
+                'lbl-grand-total': 'अंतिम कुल बिल:',
+                'lbl-paid-today': 'आज जमा की गई राशि (₹) *',
+                'lbl-pending-bal': 'शेष बकाया राशि:',
+                'lbl-pay-mode': 'भुगतान का प्रकार',
+                'opt-cash': '💵 नकद (Cash)',
+                'opt-bank': '🏦 बैंक ट्रांसफर',
+                'opt-card': '💳 कार्ड (Debit/Credit)',
+                'btn-generate-bill': '🚀 ग्राहक पंजीकरण व बिल बनाएं',
+                'card-all-orders-title': '🧾 सभी पंजीकृत ऑर्डर्स व बिल',
+                'ph-search-orders': 'ग्राहक का नाम, फोन या रिक्शा नंबर खोजें...',
+                'th-inv-no': 'बिल नंबर #',
+                'th-date': 'तिथि',
+                'th-cust-details': 'ग्राहक विवरण',
+                'th-veh-no': 'रिक्शा नंबर',
+                'th-total-bill': 'कुल बिल',
+                'th-paid': 'जमा राशि',
+                'th-balance': 'बकाया राशि',
+                'th-status': 'स्थिति (Status)',
+                'th-actions': 'विकल्प',
+                'card-pending-title': '💰 ग्राहकों की बकाया राशि (Pending Ledger)',
+                'msg-pending-desc': 'जिन ग्राहकों की बकाया राशि शेष है। राशि जमा करने के लिए "बकाया जमा करें" पर क्लिक करें।',
+                'th-cust-name': 'ग्राहक का नाम',
+                'th-phone': 'मोबाइल नंबर',
+                'card-services-cat-title': '🛠️ सेवाओं की मास्टर दर सूची',
+                'th-service-name': 'सेवा का नाम',
+                'th-category': 'श्रेणी',
+                'th-desc': 'विवरण',
+                'th-default-price': 'दर / कीमत (₹)',
+                'card-add-service-title': '➕ नई सेवा सूची में जोड़ें',
+                'lbl-service-name': 'सेवा का नाम *',
+                'lbl-category': 'श्रेणी',
+                'lbl-default-price': 'दर / कीमत (₹) *',
+                'lbl-desc': 'संक्षिप्त विवरण',
+                'btn-save-service': 'सेवा सुरक्षित करें',
+                'modal-collect-title': '💵 ग्राहक की बकाया राशि जमा करें',
+                'lbl-amt-collected': 'आज जमा की गई राशि (₹) *',
+                'btn-cancel': 'रद्द करें',
+                'btn-record-pay': 'राशि जमा करें'
+            }
+        };
+
+        let currentLang = localStorage.getItem('pcw_lang') || 'en';
+
+        function changeLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('pcw_lang', lang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes(lang));
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.textContent = i18n[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.placeholder = i18n[lang][key];
+                }
+            });
+            renderServiceCards();
+        }
+
+        let currentServices = [];
+        let currentOrders = [];
+        let orderCart = [];
+
+        /* Service icons by category */
+        const serviceIcons = {
+            'Seat Covers':   '💺',
+            'Rooftop Cover': '🛺',
+            'Tyre Flaps':    '🛞',
+            'All of that':   '💼',
+            'default':       '🔧'
+        };
+        const categoryColors = {
+            'Seat Covers':   '#1a237e',
+            'Rooftop Cover': '#4a148c',
+            'Tyre Flaps':    '#1b5e20',
+            'All of that':   '#6a1b9a',
+            'default':       '#37474f'
+        };
+
+        /* qty per service card (keyed by service id) */
+        const cardQty = {};
+
+        function renderServiceCards() {
+            const container = document.getElementById('service-cards-grid');
+            if (!container) return;
+            if (!currentServices || currentServices.length === 0) {
+                container.innerHTML = '<p style="color:#aaa; padding:10px;">No services found. Please restart the server.</p>';
+                return;
+            }
+
+            // Group by category
+            const groups = {};
+            currentServices.forEach(s => {
+                if (!groups[s.category]) groups[s.category] = [];
+                groups[s.category].push(s);
+            });
+
+            let html = '';
+            Object.entries(groups).forEach(([cat, services]) => {
+                const icon = serviceIcons[cat] || serviceIcons['default'];
+                const color = categoryColors[cat] || categoryColors['default'];
+                html += `
+                <div style="grid-column: 1 / -1; display:flex; align-items:center; gap:10px; margin-top:8px; margin-bottom:4px;">
+                    <span style="font-size:1.4rem;">${icon}</span>
+                    <span style="font-weight:800; font-size:1rem; color:${color}; text-transform:uppercase; letter-spacing:0.5px;">${cat}</span>
+                    <div style="flex:1; height:2px; background: linear-gradient(to right, ${color}44, transparent);"></div>
+                </div>`;
+
+                services.forEach(s => {
+                    const qty = cardQty[s.id] || 1;
+                    const inCart = orderCart.some(item => item.service_id == s.id);
+                    html += `
+                    <div class="service-card ${inCart ? 'in-cart' : ''}" id="svc-card-${s.id}">
+                        ${inCart ? '<span class="in-cart-badge">✓ Added</span>' : ''}
+                        <div class="svc-icon">${icon}</div>
+                        <div class="svc-name">${s.name}</div>
+                        <div class="svc-price">₹${s.default_price.toLocaleString('en-IN')}</div>
+                        <div class="svc-qty-ctrl">
+                            <button onclick="changeCardQty(${s.id}, -1); event.stopPropagation();">−</button>
+                            <span id="card-qty-${s.id}">${qty}</span>
+                            <button onclick="changeCardQty(${s.id}, 1); event.stopPropagation();">+</button>
+                        </div>
+                        <button class="svc-add-btn" onclick="addServiceCard(${s.id})">➕ Add to Bill</button>
+                    </div>`;
+                });
+            });
+
+            container.innerHTML = html;
+        }
+
+        function changeCardQty(sId, delta) {
+            cardQty[sId] = Math.max(1, (cardQty[sId] || 1) + delta);
+            const el = document.getElementById(`card-qty-${sId}`);
+            if (el) el.textContent = cardQty[sId];
+        }
+
+        function addServiceCard(sId) {
+            const service = currentServices.find(s => s.id == sId);
+            if (!service) return;
+            const qty = cardQty[sId] || 1;
+
+            // If already in cart, update quantity instead of adding duplicate
+            const existing = orderCart.findIndex(item => item.service_id == sId);
+            if (existing >= 0) {
+                orderCart[existing].quantity += qty;
+            } else {
+                orderCart.push({
+                    service_id: sId,
+                    service_name: service.name,
+                    rate: service.default_price,
+                    quantity: qty
+                });
+            }
+
+            // Reset qty for that card back to 1
+            cardQty[sId] = 1;
+            renderServiceCards();
+            renderCartTable();
+            calculateBillTotals();
+        }
+
+        function addCustomItem() {
+            const name = document.getElementById('custom-item-name').value.trim();
+            const rate = parseFloat(document.getElementById('custom-item-rate').value) || 0;
+            const qty = parseInt(document.getElementById('custom-item-qty').value) || 1;
+
+            if (!name || rate <= 0) {
+                alert('Please enter a work description and a valid price.');
+                return;
+            }
+
+            orderCart.push({ service_id: null, service_name: name, rate: rate, quantity: qty });
+            document.getElementById('custom-item-name').value = '';
+            document.getElementById('custom-item-rate').value = '';
+            document.getElementById('custom-item-qty').value = 1;
+
+            renderServiceCards();
+            renderCartTable();
+            calculateBillTotals();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchInitialData();
+            changeLang(currentLang);
+        });
+
+        async function fetchInitialData() {
+            try {
+                const res = await fetch('/api/initial_data');
+                const data = await res.json();
+                
+                currentServices = data.services || [];
+                currentOrders = data.orders || [];
+
+                updateDashboardStats(data);
+                renderServiceCards();
+                renderAllOrdersTable(currentOrders);
+                renderPendingBalancesTable(data.pending_summary || []);
+                renderServicesTable(currentServices);
+
+            } catch(err) {
+                console.error("Error loading data:", err);
+            }
+        }
+
+        function updateDashboardStats(data) {
+            document.getElementById('stat-total-orders').textContent = currentOrders.length;
+            
+            const totalRevenue = currentOrders.reduce((sum, o) => sum + (o.paid_amount || 0), 0);
+            document.getElementById('stat-total-sales').textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+
+            const totalPending = currentOrders.reduce((sum, o) => sum + (o.pending_balance || 0), 0);
+            document.getElementById('stat-pending-balance').textContent = `₹${totalPending.toLocaleString('en-IN')}`;
+
+            document.getElementById('pending-count-badge').textContent = (data.pending_summary || []).length;
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+
+
+        function removeCartItem(idx) {
+            orderCart.splice(idx, 1);
+            renderServiceCards();
+            renderCartTable();
+            calculateBillTotals();
+        }
+
+        function renderCartTable() {
+            const tbody = document.getElementById('order-items-tbody');
+            if (orderCart.length === 0) {
+                const msg = i18n[currentLang]['msg-no-items'] || 'No items added yet.';
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">${msg}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = orderCart.map((item, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${item.service_name}</strong></td>
+                    <td>₹${item.rate.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td><strong>₹${(item.rate * item.quantity).toFixed(2)}</strong></td>
+                    <td><button class="btn btn-outline" style="padding:2px 8px; color:red; font-size:0.75rem;" onclick="removeCartItem(${i})">✕</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function calculateBillTotals() {
+            const subtotal = orderCart.reduce((sum, item) => sum + (item.rate * item.quantity), 0);
+            const discount = parseFloat(document.getElementById('bill-discount').value) || 0;
+            const tax = parseFloat(document.getElementById('bill-tax').value) || 0;
+
+            const grandTotal = Math.max(0, subtotal - discount + tax);
+            const paid = parseFloat(document.getElementById('bill-paid').value) || 0;
+            const pending = Math.max(0, grandTotal - paid);
+
+            document.getElementById('bill-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('bill-grand-total').textContent = `₹${grandTotal.toFixed(2)}`;
+            document.getElementById('bill-pending').textContent = `₹${pending.toFixed(2)}`;
+        }
+
+        async function submitOrderAndGenerateBill() {
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const vehicle = document.getElementById('cust-vehicle').value.trim();
+
+            if (!name || !phone) {
+                alert('Please enter Customer Name and Phone Number.');
+                return;
+            }
+
+            if (orderCart.length === 0) {
+                alert('Please add at least one service item to the bill.');
+                return;
+            }
+
+            const discount = parseFloat(document.getElementById('bill-discount').value) || 0;
+            const tax_amount = parseFloat(document.getElementById('bill-tax').value) || 0;
+            const paid_amount = parseFloat(document.getElementById('bill-paid').value) || 0;
+            const payment_mode = document.getElementById('bill-paymode').value;
+
+            const payload = {
+                customer_name: name,
+                customer_phone: phone,
+                vehicle_no: vehicle,
+                items: orderCart,
+                discount: discount,
+                tax_amount: tax_amount,
+                paid_amount: paid_amount,
+                payment_mode: payment_mode
+            };
+
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    alert(`✅ Customer Registration & Bill Created Successfully! Invoice No: ${result.invoice_no}`);
+                    window.open(`/bill/${result.order_id}`, '_blank');
+                    location.reload();
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch(e) {
+                alert('Failed to submit order.');
+            }
+        }
+
+        /* --- ALL ORDERS TABLE --- */
+        function renderAllOrdersTable(orders) {
+            const tbody = document.getElementById('all-orders-tbody');
+            if (orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;">No orders recorded yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(o => `
+                <tr>
+                    <td><strong>${o.invoice_no}</strong></td>
+                    <td>${o.created_at ? o.created_at.split(' ')[0] : ''}</td>
+                    <td><strong>${o.customer_name}</strong><br><small style="color:#666;">📞 ${o.customer_phone}</small></td>
+                    <td><span class="badge" style="background:#eef; color:#33f;">${o.vehicle_no || 'N/A'}</span></td>
+                    <td>₹${o.total_amount.toFixed(2)}</td>
+                    <td style="color:var(--success); font-weight:600;">₹${o.paid_amount.toFixed(2)}</td>
+                    <td style="color:var(--warning); font-weight:700;">₹${o.pending_balance.toFixed(2)}</td>
+                    <td><span class="badge ${o.pending_balance === 0 ? 'badge-completed' : 'badge-pending'}">${o.status}</span></td>
+                    <td>
+                        <a href="/bill/${o.id}" target="_blank" class="btn btn-outline" style="padding:4px 8px; font-size:0.75rem;">📄 Bill</a>
+                        ${o.pending_balance > 0 ? `<button class="btn btn-success" style="padding:4px 8px; font-size:0.75rem;" onclick="openCollectModal(${o.id}, '${o.customer_name}', ${o.pending_balance})">💵 Pay</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterOrdersTable() {
+            const query = document.getElementById('search-orders').value.toLowerCase();
+            const filtered = currentOrders.filter(o => 
+                o.customer_name.toLowerCase().includes(query) ||
+                o.customer_phone.includes(query) ||
+                (o.vehicle_no && o.vehicle_no.toLowerCase().includes(query)) ||
+                o.invoice_no.toLowerCase().includes(query)
+            );
+            renderAllOrdersTable(filtered);
+        }
+
+        /* --- PENDING BALANCES TABLE --- */
+        function renderPendingBalancesTable(summary) {
+            const tbody = document.getElementById('pending-balances-tbody');
+            if (!summary || summary.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--success); font-weight:600;">🎉 No pending balances! All customers are fully paid.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = summary.map(item => `
+                <tr>
+                    <td><strong>${item.invoice_no}</strong></td>
+                    <td>${item.created_at ? item.created_at.split(' ')[0] : ''}</td>
+                    <td><strong>${item.customer_name}</strong></td>
+                    <td>📞 ${item.customer_phone}</td>
+                    <td><span class="badge" style="background:#eef; color:#33f;">${item.vehicle_no || 'N/A'}</span></td>
+                    <td>₹${item.total_amount.toFixed(2)}</td>
+                    <td>₹${item.paid_amount.toFixed(2)}</td>
+                    <td style="color:var(--danger); font-weight:800; font-size:1.05rem;">₹${item.pending_balance.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-success" style="padding:6px 12px; font-size:0.8rem;" onclick="openCollectModal(${item.id}, '${item.customer_name}', ${item.pending_balance})">💵 Collect Payment</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openCollectModal(orderId, name, balance) {
+            document.getElementById('modal-order-id').value = orderId;
+            document.getElementById('modal-cust-name').value = name;
+            document.getElementById('modal-due-bal').value = `₹${balance.toFixed(2)}`;
+            document.getElementById('modal-pay-amt').value = balance;
+            document.getElementById('pay-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('pay-modal').style.display = 'none';
+        }
+
+        async function submitCollectPayment() {
+            const orderId = document.getElementById('modal-order-id').value;
+            const amt = parseFloat(document.getElementById('modal-pay-amt').value);
+            const mode = document.getElementById('modal-pay-mode').value;
+
+            if (!orderId || amt <= 0) {
+                alert('Enter a valid payment amount.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/payments', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ order_id: orderId, amount: amt, payment_mode: mode })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    alert('✅ Payment Recorded Successfully!');
+                    closeModal();
+                    fetchInitialData();
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch(e) {
+                alert('Failed to record payment.');
+            }
+        }
+
+        /* --- SERVICES --- */
+        function renderServicesTable(servList) {
+            const tbody = document.getElementById('services-tbody');
+            tbody.innerHTML = servList.map(s => `
+                <tr>
+                    <td><strong>${s.name}</strong></td>
+                    <td><span class="badge" style="background:#e8eaf6; color:var(--primary);">${s.category}</span></td>
+                    <td style="color:#666; font-size:0.85rem;">${s.description || '-'}</td>
+                    <td style="font-weight:700; color:var(--primary);">₹${s.default_price.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function saveServiceItem(e) {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('service-name').value,
+                category: document.getElementById('service-cat').value,
+                default_price: parseFloat(document.getElementById('service-price').value),
+                description: document.getElementById('service-desc').value
+            };
+
+            await fetch('/api/services', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            alert('✅ Service Saved to Catalog!');
+            fetchInitialData();
+        }
+    </script>
+</body>
+</html>

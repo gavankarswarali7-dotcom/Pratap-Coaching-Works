@@ -92,10 +92,15 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-    <div class="brand">PRATAP COACHING WORKS</div>
+    <div class="brand" data-i18n="brand">PRATAP COACHING WORKS</div>
     <div class="right">
+        <div class="lang-switch" style="display:flex; gap:4px; background:rgba(255,255,255,0.2); padding:3px 6px; border-radius:6px;">
+            <button onclick="setIndexLang('en')" class="idx-lang-btn active" style="background:none; border:none; color:#fff; font-weight:700; cursor:pointer; padding:2px 8px; font-size:0.8rem;">EN</button>
+            <button onclick="setIndexLang('mr')" class="idx-lang-btn" style="background:none; border:none; color:#fff; font-weight:700; cursor:pointer; padding:2px 8px; font-size:0.8rem;">मराठी</button>
+            <button onclick="setIndexLang('hi')" class="idx-lang-btn" style="background:none; border:none; color:#fff; font-weight:700; cursor:pointer; padding:2px 8px; font-size:0.8rem;">हिंदी</button>
+        </div>
         <span class="phone">📞 94226 13763</span>
-        <a href="https://wa.me/919422613763" class="quote-btn">REQUEST A QUOTE</a>
+        <a href="https://wa.me/919422613763" class="quote-btn" data-i18n="quote-btn">REQUEST A QUOTE</a>
     </div>
 </div>
 
@@ -106,6 +111,7 @@
     <a href="#gallery">GALLERY</a>
     <a href="#about">ABOUT US</a>
     <a href="#contact">CONTACT</a>
+    <a href="/management" style="color:#ff6f00; font-weight:800;">🛺 WORKSHOP PORTAL</a>
 </nav>
 
 <!-- HERO -->
@@ -229,6 +235,36 @@ function closeLightbox() {
 }
 document.getElementById('lightbox').addEventListener('click', function(e) {
     if(e.target === this) closeLightbox();
+});
+
+const idxTranslations = {
+    en: {
+        'brand': 'PRATAP COACHING WORKS',
+        'quote-btn': 'REQUEST A QUOTE'
+    },
+    mr: {
+        'brand': 'प्रताप कोचिंग वर्क्स (मिराज)',
+        'quote-btn': 'कोटेशन मागवा'
+    },
+    hi: {
+        'brand': 'प्रताप कोचिंग वर्क्स (मेराज)',
+        'quote-btn': 'कोटेशन मंगवाएं'
+    }
+};
+
+function setIndexLang(lang) {
+    localStorage.setItem('pcw_lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (idxTranslations[lang] && idxTranslations[lang][key]) {
+            el.textContent = idxTranslations[lang][key];
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('pcw_lang') || 'en';
+    setIndexLang(savedLang);
 });
 </script>
 </body>
