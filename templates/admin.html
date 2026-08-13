@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Pratap Coaching Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        .header { background: #1a237e; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { color: #fff; font-size: 1.5rem; }
+        .header a { color: #ff6f00; text-decoration: none; font-weight: 600; }
+        .container { padding: 40px; max-width: 1200px; margin: 0 auto; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: #fff; border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-left: 4px solid #1a237e; }
+        .stat-card .number { font-size: 2.5rem; font-weight: 800; color: #1a237e; }
+        .stat-card .label { color: #666; font-size: 0.9rem; margin-top: 4px; }
+        h2 { font-size: 1.5rem; color: #1a237e; margin-bottom: 20px; }
+        table { width: 100%; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-collapse: collapse; overflow: hidden; }
+        th { background: #1a237e; color: #fff; padding: 14px 16px; text-align: left; font-size: 0.85rem; text-transform: uppercase; }
+        td { padding: 14px 16px; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #444; }
+        tr:hover td { background: #f8f9fa; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .badge-roof { background: #e3f2fd; color: #1565c0; }
+        .badge-seat { background: #f3e5f5; color: #7b1fa2; }
+        .badge-flap { background: #e8f5e9; color: #2e7d32; }
+        .badge-custom { background: #fff3e0; color: #e65100; }
+        .no-data { text-align: center; padding: 60px; color: #999; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🔧 Pratap Coaching Works — Admin Panel</h1>
+    <a href="/">← Back to Website</a>
+</div>
+
+<div class="container">
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-card">
+            <div class="number">{{ bookings|length }}</div>
+            <div class="label">Total Bookings</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'roof')|list|length }}</div>
+            <div class="label">Roof Bookings</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'seat')|list|length }}</div>
+            <div class="label">Seat Bookings</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'flap')|list|length }}</div>
+            <div class="label">Flap Bookings</div>
+        </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <h2>📋 All Bookings</h2>
+
+    {% if bookings %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Rickshaw No.</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Message</th>
+                <th>Booked At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td>{{ b[0] }}</td>
+                <td><strong>{{ b[1] }}</strong></td>
+                <td>📞 {{ b[2] }}</td>
+                <td>{{ b[3] or '-' }}</td>
+                <td>
+                    <span class="badge badge-{{ b[4] }}">
+                        {% if b[4] == 'roof' %}🛺 Rooftop
+                        {% elif b[4] == 'seat' %}💺 Seat
+                        {% elif b[4] == 'flap' %}🛞 Flaps
+                        {% else %}🪛 Custom
+                        {% endif %}
+                    </span>
+                </td>
+                <td>{{ b[5] or '-' }}</td>
+                <td>{{ b[6] or '-' }}</td>
+                <td>{{ b[7] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="no-data">
+        <p>📭 No bookings yet!</p>
+    </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
