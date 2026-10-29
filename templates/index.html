@@ -209,19 +209,26 @@
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
             <input type="text" name="rickshaw_number" placeholder="Rickshaw Number (eg, MH 10 AB 1234)" style="padding:12px; border:1px solid #ddd; border-radius:6px; font-size:1rem;">
-            <select name="service" required style="padding:12px; border:1px solid #ddd; border-radius:6px; font-size:1rem; color:#666;">
-                <option value="">Select Service</option>
-                <option value="roof">Rooftop Cover</option>
-                <option value="seat">Seat Cover</option>
-                <option value="flap">Tyre Flaps</option>
-                <option value="custom">Custom Seat Making</option>
-            </select>
+            <select name="service" required>
+    <option value="">Select Service</option>
+    <option value="roof_custom">Rooftop Customisation</option>
+    <option value="seat_custom">Seat Customisation</option>
+    <option value="tyre_flaps">Tyre Flaps (Custom)</option>
+    <option value="roof_seat">Roof and Seat Customisation</option>
+    <option value="complete">Complete Rickshaw Customisation</option>
+</select>
         </div>
-        <div style="margin-bottom:16px;">
-            <input type="date" name="date" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:6px; font-size:1rem;">
-        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+    <div>
+        <label style="font-size:0.85rem; color:#666; font-weight:600;">Start Date</label>
+        <input type="date" name="start_date" style="width:100%;">
+    </div>
+    <div>
+        <label style="font-size:0.85rem; color:#666; font-weight:600;"> Expected End Date</label>
+        <input type="date" name="end_date" style="width:100%;">
+    </div>
+</div>
         <div style="margin-bottom:20px;">
-            <textarea name="message" placeholder="Additional Message" rows="3" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:6px; font-size:1rem; resize:none;"></textarea>
         </div>
         <button type="submit" style="background:#1a237e; color:#fff; padding:14px 40px; border:none; border-radius:6px; font-size:1rem; font-weight:700; cursor:pointer; width:100%; transition:background 0.2s;">BOOK APPOINTMENT</button>
     </form>
