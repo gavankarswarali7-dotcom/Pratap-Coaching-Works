@@ -73,5 +73,7 @@ def admin():
     conn.close()
     return render_template('admin.html', bookings=bookings)
 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
