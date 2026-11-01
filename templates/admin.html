@@ -35,6 +35,11 @@
         .badge-seat { background: #f3e5f5; color: #7b1fa2; }
         .badge-flap { background: #e8f5e9; color: #2e7d32; }
         .badge-custom { background: #fff3e0; color: #e65100; }
+        .badge-roof_custom { background: #e3f2fd; color: #1565c0; }
+        .badge-seat_custom { background: #f3e5f5; color: #7b1fa2; }
+        .badge-tyre_flaps { background: #e8f5e9; color: #2e7d32; }
+        .badge-roof_seat { background: #e0f7fa; color: #00695c; }
+        .badge-complete { background: #fff8e1; color: #ef6c00; }
         .btn-delete { background: #e53935; color: white; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 0.82rem; font-weight: 600; }
         .btn-delete:hover { background: #b71c1c; }
         .no-data { text-align: center; padding: 60px; color: #999; }
@@ -44,7 +49,7 @@
 
 <div class="header">
     <h1>🔧 Pratap Coaching Works — Admin Panel</h1>
-    <a href="/">← Back to Website</a>
+    <a href="/logout" style="margin-left:20px;">Logout</a>
 </div>
 
 <div class="container">
@@ -53,27 +58,28 @@
             <div class="number">{{ bookings|length }}</div>
             <div class="label">Total Bookings</div>
         </div>
-        <div class="stat-card" id="card-roof" onclick="filterBookings('roof')">
-            <div class="number">{{ bookings|selectattr(4, 'equalto', 'roof')|list|length }}</div>
-            <div class="label">Roof Bookings</div>
+        <div class="stat-card" id="card-roof_custom" onclick="filterBookings('roof_custom')">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'roof_custom')|list|length }}</div>
+            <div class="label">Rooftop Customisation</div>
         </div>
-        <div class="stat-card" id="card-seat" onclick="filterBookings('seat')">
-            <div class="number">{{ bookings|selectattr(4, 'equalto', 'seat')|list|length }}</div>
-            <div class="label">Seat Bookings</div>
+        <div class="stat-card" id="card-seat_custom" onclick="filterBookings('seat_custom')">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'seat_custom')|list|length }}</div>
+            <div class="label">Seat Customisation</div>
         </div>
-        <div class="stat-card" id="card-flap" onclick="filterBookings('flap')">
-            <div class="number">{{ bookings|selectattr(4, 'equalto', 'flap')|list|length }}</div>
-            <div class="label">Flap Bookings</div>
+        <div class="stat-card" id="card-tyre_flaps" onclick="filterBookings('tyre_flaps')">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'tyre_flaps')|list|length }}</div>
+            <div class="label">Tyre Flaps (Custom)</div>
         </div>
-        <div class="stat-card" id="card-roofseat" onclick="filterBookings('roof_custom and seat_custom')">
-            <div class="number">{{ bookings|selectattr(4, 'equalto', 'roof_custom and seat_custom')|list|length }}</div>
-            <div class="label">Roof and Seat Bookings</div>
+        <div class="stat-card" id="card-roof_seat" onclick="filterBookings('roof_seat')">
+            <div class="number">{{ bookings|selectattr(4, 'equalto', 'roof_seat')|list|length }}</div>
+            <div class="label">Roof and Seat Customisation</div>
         </div>
         <div class="stat-card" id="card-complete" onclick="filterBookings('complete')">
             <div class="number">{{ bookings|selectattr(4, 'equalto', 'complete')|list|length }}</div>
-            <div class="label">Complete Customization Bookings</div>
+            <div class="label">Complete Rickshaw Customisation</div>
         </div>
     </div>
+
 
     <div class="table-header">
         <h2>📋 All Bookings <span class="count-badge" id="shown-count">{{ bookings|length }}</span></h2>
@@ -93,7 +99,7 @@
                 <th>Rickshaw No.</th>
                 <th>Service</th>
                 <th>Start Date</th>
-                <th>Expected End Date</th>
+                <th>End Date</th>
                 <th>Booked At</th>
                 <th>Action</th>
             </tr>
@@ -101,18 +107,13 @@
         <tbody>
             {% for b in bookings %}
             <tr class="booking-row" data-service="{{ b[4] }}">
-                <td>{{ b[0] }}</td>
+                <td>{{ loop.index }}</td>
                 <td><strong>{{ b[1] }}</strong></td>
-                <td>📞 {{ b[2] }}</td>
+                <td>{{ b[2] }}</td>
                 <td>{{ b[3] or '-' }}</td>
                 <td>
-                    <span class="badge badge-{{ b[4] }}">
-                        {% if b[4] == 'roof' %}🛺 Rooftop
-                        {% elif b[4] == 'seat' %}💺 Seat
-                        {% elif b[4] == 'flap' %}🛞 Flaps
-                        {% else %}🪛 Custom
-                        {% endif %}
-                    </span>
+                    {% set names = {'roof_custom': 'Rooftop Customisation', 'seat_custom': 'Seat Customisation', 'tyre_flaps': 'Tyre Flaps (Custom)', 'roof_seat': 'Roof and Seat', 'complete': 'Complete Rickshaw', 'roof': 'Rooftop', 'seat': 'Seat', 'flap': 'Flaps', 'custom': 'Custom'} %}
+                    <span class="badge badge-{{ b[4] }}">{{ names.get(b[4], b[4]) }}</span>
                 </td>
                 <td>{{ b[5] or '-' }}</td>
                 <td>{{ b[6] or '-' }}</td>
@@ -120,7 +121,7 @@
                 <td>
                     <a href="/delete/{{ b[0] }}"
                        onclick="return confirm('Delete this booking?')"
-                       class="btn-delete">🗑️ Delete</a>
+                       class="btn-delete">Delete</a>
                 </td>
             </tr>
             {% endfor %}
@@ -147,10 +148,12 @@ function filterBookings(type) {
 
     let count = 0;
     rows.forEach(row => {
-        if (type === 'all' || row.getAttribute('data-service') === type) {
-            row.style.display = ''; count++;
-        } else {
-            row.style.display = 'none';
+        const show = type === 'all' || row.getAttribute('data-service') === type;
+        row.style.display = show ? '' : 'none';
+        if (show) {
+            count++;
+            // renumber visible rows 1, 2, 3... so the # column has no gaps
+            row.querySelector('td').textContent = count;
         }
     });
 
@@ -158,7 +161,7 @@ function filterBookings(type) {
         filterTag.classList.remove('visible');
     } else {
         filterTag.classList.add('visible');
-        const labels = { roof: '🛺 Rooftop', seat: '💺 Seat', flap: '🛞 Flaps' };
+        const labels = { roof_custom: 'Rooftop Customisation', seat_custom: 'Seat Customisation', tyre_flaps: 'Tyre Flaps (Custom)', roof_seat: 'Roof and Seat Customisation', complete: 'Complete Rickshaw Customisation' };
         filterLabel.textContent = labels[type] || type;
     }
     shownCount.textContent = count;

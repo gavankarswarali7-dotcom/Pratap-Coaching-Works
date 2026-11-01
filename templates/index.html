@@ -91,6 +91,9 @@
 .active-filter { background:#1a237e; color:#fff; }
 .gallery-item { display:block; }
 .gallery-item.hidden { display:none; }
+.more-tile { position: relative; cursor: pointer; }
+.more-tile img { filter: brightness(0.4); }
+.more-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 1.3rem; font-weight: 700; white-space: nowrap; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -165,41 +168,16 @@
     </div>
 
     <div class="gallery-grid" id="gallery-grid">
-        <!-- ROOFS -->
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r1.jpeg') }}" alt="Roof 1" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r2.jpeg') }}" alt="Roof 2" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r3.jpeg') }}" alt="Roof 3" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r4.jpeg') }}" alt="Roof 4" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r5.jpeg') }}" alt="Roof 5" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r6.jpeg') }}" alt="Roof 6" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r8.jpeg') }}" alt="Roof 8" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r9.jpeg') }}" alt="Roof 9" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r10.jpeg') }}" alt="Roof 10" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r11.jpeg') }}" alt="Roof 11" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r12.jpeg') }}" alt="Roof 12" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r13.jpg') }}" alt="Roof 13" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r14.jpeg') }}" alt="Roof 14" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r15.jpeg') }}" alt="Roof 15" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r16.jpeg') }}" alt="Roof 16" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="roof"><img src="{{ url_for('static', filename='images/r17.jpeg') }}" alt="Roof 17" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <!-- SEATS -->
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat1.jpeg') }}" alt="Seat 1" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat2.jpeg') }}" alt="Seat 2" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat3.jpeg') }}" alt="Seat 3" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat4.jpeg') }}" alt="Seat 4" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat5.jpeg') }}" alt="Seat 5" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat6.jpeg') }}" alt="Seat 6" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat7.jpeg') }}" alt="Seat 7" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat8.jpeg') }}" alt="Seat 8" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat9.jpeg') }}" alt="Seat 9" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="seat"><img src="{{ url_for('static', filename='images/Seat10.jpeg') }}" alt="Seat 10" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <!-- FLAPS -->
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap1.jpg') }}" alt="Flap 1" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap2.jpeg') }}" alt="Flap 2" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap3.jpeg') }}" alt="Flap 3" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap4.jpeg') }}" alt="Flap 4" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap5.jpeg') }}" alt="Flap 5" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
-        <div class="gallery-item" data-cat="flap"><img src="{{ url_for('static', filename='images/Flap6.jpeg') }}" alt="Flap 6" onclick="openLightbox(this.src)" style="cursor:pointer;"></div>
+        {% for g in gallery %}
+        <div class="gallery-item" data-cat="{{ g.cat }}" data-cat-idx="{{ g.cat_idx }}" data-preview="{{ 1 if g.preview else 0 }}">
+            <img src="{{ url_for('static', filename='images/' ~ g.file) }}" alt="{{ g.cat }} work" onclick="openLightbox(this.src)" style="cursor:pointer;">
+        </div>
+        {% endfor %}
+        <!-- "+N More" tile: count and picture are set by renderGallery() -->
+        <div class="gallery-item more-tile hidden" id="more-tile" onclick="showMore()">
+            <img id="more-img" src="" alt="More work">
+            <span class="more-text" id="more-text"></span>
+        </div>
     </div>
 </section>
 
@@ -309,17 +287,54 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
 
 </script>
 <script>
+const PREVIEW_COUNT = 4;          // photos per category before "+N More"
+let currentCat = 'all';
+const expanded = { all: false, roof: false, seat: false, flap: false };
+
 function filterGallery(cat) {
-    document.querySelectorAll('.gallery-item').forEach(item => {
-        if(cat === 'all' || item.dataset.cat === cat) {
-            item.classList.remove('hidden');
-        } else {
-            item.classList.add('hidden');
-        }
-    });
+    currentCat = cat;
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active-filter'));
     document.getElementById('btn-' + cat).classList.add('active-filter');
+    renderGallery();
 }
+
+function showMore() {
+    expanded[currentCat] = true;
+    renderGallery();
+}
+
+function renderGallery() {
+    const photos = document.querySelectorAll('#gallery-grid .gallery-item[data-cat]');
+    let inView = 0, visible = 0, firstSrc = '';
+
+    photos.forEach(item => {
+        const matches = currentCat === 'all' || item.dataset.cat === currentCat;
+        let show;
+        if (currentCat === 'all') {
+            show = expanded.all || item.dataset.preview === '1';
+        } else {
+            show = matches && (expanded[currentCat] || Number(item.dataset.catIdx) <= PREVIEW_COUNT);
+        }
+        if (matches) inView++;
+        if (show) {
+            visible++;
+            if (!firstSrc) firstSrc = item.querySelector('img').src;
+        }
+        item.classList.toggle('hidden', !show);
+    });
+
+    const more = document.getElementById('more-tile');
+    const remaining = inView - visible;
+    if (remaining > 0) {
+        document.getElementById('more-text').textContent = '+' + remaining + ' More';
+        document.getElementById('more-img').src = firstSrc;
+        more.classList.remove('hidden');
+    } else {
+        more.classList.add('hidden');
+    }
+}
+
+renderGallery();
 </script>
 </body>
 </html>
